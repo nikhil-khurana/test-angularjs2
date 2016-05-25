@@ -13,7 +13,7 @@ export class MetroService {
     metroArea:Array<any>;
     metroNeighbourhood:Array<any>;
 
-    savedData: metroData = {area:"test", neighb:"ttt"};
+    savedData: metroData = {area:"", neighb:""};
     
     constructor() {
         this.metroArea = [

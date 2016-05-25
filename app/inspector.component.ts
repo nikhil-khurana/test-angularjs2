@@ -12,7 +12,9 @@ export class InspectorComponent {
     componentName: 'InspectorComponent';
     selectedMetroArea: String;
     selectedMetroNeighb: String;
-	
+	metroArea:Array<any>;
+    metroNeighbourhood:Array<any>;
+    
     // Inject MetroService and assign it to _metroService
     constructor(private _metroService: MetroService, private router: Router) {
         

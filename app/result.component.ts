@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router-deprecated';
 import { MetroService } from './metro.service';
+import { metroData } from './metro.service';
 
 @Component({
   selector: 'result',
@@ -10,6 +11,7 @@ import { MetroService } from './metro.service';
 
 export class ResultComponent {
     componentName: 'ResultComponent';
+    savedData: metroData = {area:"", neighb:""};
     selectedMetroArea: String;
     selectedMetroNeighb: String;
     
@@ -17,7 +19,7 @@ export class ResultComponent {
   		this.router = router;
   		this._metroService = _metroService;
   		this.savedData = _metroService.getSelectedData();
-  		//console.log(this.savedData);
+  		
   		this.selectedMetroArea = this.savedData.area;
   		this.selectedMetroNeighb = this.savedData.neighb;
   	}
