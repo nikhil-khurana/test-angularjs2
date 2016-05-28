@@ -1,18 +1,17 @@
 <label>Search by Metro Area</label> 
 <br/>
-<select [(ngModel)]="selectedMetroArea">
-<option value="">Metro Area</option>
-<option *ngFor="let area of metroArea"
-        value= {{area.name}}>{{area.name}}
-</option>
+
+<select [(ngModel)]="selectedMetroArea" (change)="onSelect($event)">
+	<option value="">Metro Area</option>
+	<option [value]= "stringify(area)" *ngFor="let area of metroArea">{{area.MetroAreaDescription}}</option>
 </select>
+
 <br/>
 <br/>
+
 <select [(ngModel)]="selectedMetroNeighb">
-<option value="">Metro Neighbourhood</option>
-<option *ngFor="let neighb of metroNeighbourhood "
-      value= {{neighb.name}}>{{neighb.name}}
-</option>
+	<option value="">Metro Neighbourhood</option>
+	<option *ngFor="let neighb of metroNeighbourhood " [value]= "stringify(neighb)">{{neighb.Neighborhood}}</option>
 </select>
 
 <br/>

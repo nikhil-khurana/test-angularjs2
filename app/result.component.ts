@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router-deprecated';
 import { MetroService } from './metro.service';
-import { metroData } from './metro.service';
+
+import { OnInit } from '@angular/core';
+import { SharedService } from './shared.service';
 
 @Component({
   selector: 'result',
@@ -11,18 +13,18 @@ import { metroData } from './metro.service';
 
 export class ResultComponent {
     componentName: 'ResultComponent';
-    savedData: metroData = {area:"", neighb:""};
-    selectedMetroArea: String;
-    selectedMetroNeighb: String;
     
-  	constructor(private router: Router, private _metroService: MetroService) {
-  		this.router = router;
-  		this._metroService = _metroService;
-  		this.savedData = _metroService.getSelectedData();
-  		
-  		this.selectedMetroArea = this.savedData.area;
-  		this.selectedMetroNeighb = this.savedData.neighb;
-  	}
+    selectedMetroArea: Object;
+    selectedMetroNeighb: Object;
+    
+  	constructor(private router: Router, private _sharedService:SharedService) {
+  		this.router = router;  		
+    }
+
+    ngOnInit() {
+      this.selectedMetroArea = this._sharedService.getMetroArea();
+      this.selectedMetroNeighb = this._sharedService.getMetroNeighbourhood();
+    }
 
     back(){
     	this.router.navigate(['Find']);

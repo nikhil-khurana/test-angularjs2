@@ -1,56 +1,48 @@
 import { Injectable, Input } from '@angular/core';
-
-export interface metroData {
-   area:String;
-   neighb:String;
-}
+import { SharedService } from './shared.service';
+import { Headers, Http, Response } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
 
 // Injectable service for Metro
 @Injectable()
 export class MetroService { 
 
     
-    metroArea:Array<any>;
-    metroNeighbourhood:Array<any>;
+    private host = 'http://ashijsonapi.azurewebsites.net/Home'
+    private metroAreaURL = '/GetMetroAreas';
+    private metroNeighbourhoodURL = '/GetMetroNeighborhoods?metroAreaId=';
 
-    savedData: metroData = {area:"", neighb:""};
+ 
+    constructor(private _sharedService:SharedService, private http: Http) {      
+    }
+
+
     
-    constructor() {
-        this.metroArea = [
-            { rank: 40, name: 'El Paso, TX' },
-            { rank: 45, name: 'Allentown-Bethlehem-Easton, PA-NJ' },
-            { rank: 38, name: 'Baton Rouge, LA' },
-            { rank: 60, name: 'Columbia, SC' }  
-        ];
-        this.metroNeighbourhood = [
-            { name: 'Downtown LA' },
-            { name: 'EAST LA' },
-            { name: 'WEST LA' },
-            { name: 'SOUTH LA' }
-        ];
-    }
-    //Methods for Dropdown
-    getMetroArea() {
-        return this.metroArea;
+    getMetroArea(): Promise<Array<any>> {
+        
+        return this.http.get(this.host+this.metroAreaURL)
+               .toPromise()
+               .then(this.extractData)
+               .catch(this.handleError);
     }
 
-    getMetroNeighbourhood() {
-        return this.metroNeighbourhood;
+    getMetroNeighbourhoods(area): Promise<Array<any>> {
+        console.log(area);
+        return this.http.get(this.host+this.metroNeighbourhoodURL+area)
+               .toPromise()
+               .then(this.extractData)
+               .catch(this.handleError);
+    }
+
+    private extractData(res: Response) {
+      let body = res.json();    
+      return body;
     }
 
 
-
-
-/**
-*Methods for Passing data from one component to other
-**/
-    saveSelectedData(obj){
-    	this.savedData = obj;    	
-    	console.log(this.savedData);
+    private handleError(error: any) {
+        console.error('An error occurred', error);
+        return Promise.reject(error.message || error);
     }
 
-    getSelectedData(){
-    	console.log(this.savedData);
-    	return this.savedData;
-    }
 }
